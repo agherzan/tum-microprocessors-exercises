@@ -17,14 +17,30 @@ int no_sz = 1, no_ratio =1, no_version=1;
 
 static inline
 double gettime(void) {
-  // to be implemented
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec * 1000000 + tv.tv_usec;
 }
 
 
+/* Simple checkings on each char */
 static void toupper_simple(char * text) {
-  // to be implemented
+    for (; *text != '\0'; text++) {
+        if ((*text >= 'a') && (*text <= 'z'))
+            *text -= 32;
+    }
 }
 
+/*
+ * Bitwise version
+ * b - 1 1 0 0 0 0 1
+ * B - 1 0 0 0 0 0 1
+ */
+static void toupper_simple_bitwise(char * text) {
+    for (; *text != '\0'; text++) {
+        *text &= ~(1<<5);
+    }
+}
 
 static void toupper_optimised(char * text) {
   // to be implemented
@@ -102,7 +118,8 @@ struct _toupperversion {
     const char* name;
     toupperfunc func;
 } toupperversion[] = {
-    { "simple",    toupper_simple },
+    { "simple",             toupper_simple },
+    { "simple-bitwise",     toupper_simple_bitwise },
     { "optimised", toupper_optimised },
     { 0,0 }
 };
