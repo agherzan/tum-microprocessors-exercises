@@ -1,0 +1,5 @@
+*.s
+result*
+*variant*
+.autoclean
+a.out
