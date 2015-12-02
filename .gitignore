@@ -3,3 +3,4 @@ result*
 *variant*
 .autoclean
 a.out
+options.h
