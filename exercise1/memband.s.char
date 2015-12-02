@@ -1,0 +1,117 @@
+	.file	"memband.c"
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC3:
+	.string	"%.3f GiB/s\n"
+	.section	.text.unlikely,"ax",@progbits
+.LCOLDB4:
+	.text
+.LHOTB4:
+	.p2align 4,,15
+	.globl	computebw
+	.type	computebw, @function
+computebw:
+.LFB35:
+	.cfi_startproc
+	pushq	%rbx
+	.cfi_def_cfa_offset 16
+	.cfi_offset 3, -16
+	movq	%rdi, %rbx
+	xorl	%esi, %esi
+	subq	$32, %rsp
+	.cfi_def_cfa_offset 48
+	leaq	16(%rsp), %rdi
+	call	gettimeofday
+	pxor	%xmm0, %xmm0
+	movq	%rbx, %rdi
+	pxor	%xmm1, %xmm1
+	xorl	%eax, %eax
+	cvtsi2sdq	24(%rsp), %xmm0
+	divsd	.LC0(%rip), %xmm0
+	cvtsi2sdq	16(%rsp), %xmm1
+	addsd	%xmm1, %xmm0
+	movsd	.LC1(%rip), %xmm1
+	movsd	%xmm0, 8(%rsp)
+	.p2align 4,,10
+	.p2align 3
+.L2:
+	pxor	%xmm0, %xmm0
+	addl	$1, %eax
+	movb	$49, (%rdi)
+	addq	$1, %rdi
+	cvtsi2sd	%eax, %xmm0
+	ucomisd	%xmm0, %xmm1
+	ja	.L2
+	leaq	16(%rsp), %rdi
+	xorl	%esi, %esi
+	call	gettimeofday
+	pxor	%xmm1, %xmm1
+	movl	$.LC3, %edi
+	pxor	%xmm0, %xmm0
+	movl	$1, %eax
+	cvtsi2sdq	24(%rsp), %xmm1
+	divsd	.LC0(%rip), %xmm1
+	cvtsi2sdq	16(%rsp), %xmm0
+	addsd	%xmm0, %xmm1
+	movsd	.LC2(%rip), %xmm0
+	subsd	8(%rsp), %xmm1
+	divsd	%xmm1, %xmm0
+	call	printf
+	addq	$32, %rsp
+	.cfi_def_cfa_offset 16
+	popq	%rbx
+	.cfi_def_cfa_offset 8
+	ret
+	.cfi_endproc
+.LFE35:
+	.size	computebw, .-computebw
+	.section	.text.unlikely
+.LCOLDE4:
+	.text
+.LHOTE4:
+	.section	.text.unlikely
+.LCOLDB5:
+	.section	.text.startup,"ax",@progbits
+.LHOTB5:
+	.p2align 4,,15
+	.globl	main
+	.type	main, @function
+main:
+.LFB36:
+	.cfi_startproc
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 16
+	movl	$107374182, %edi
+	call	malloc
+	movl	$107374182, %edx
+	movl	$255, %esi
+	movq	%rax, %rdi
+	call	memset
+	movb	$0, 107374181(%rax)
+	movq	%rax, %rdi
+	call	computebw
+	xorl	%eax, %eax
+	addq	$8, %rsp
+	.cfi_def_cfa_offset 8
+	ret
+	.cfi_endproc
+.LFE36:
+	.size	main, .-main
+	.section	.text.unlikely
+.LCOLDE5:
+	.section	.text.startup
+.LHOTE5:
+	.section	.rodata.cst8,"aM",@progbits,8
+	.align 8
+.LC0:
+	.long	0
+	.long	1093567616
+	.align 8
+.LC1:
+	.long	2576980378
+	.long	1100585369
+	.align 8
+.LC2:
+	.long	2550136832
+	.long	1069128089
+	.ident	"GCC: (GNU) 5.2.0"
+	.section	.note.GNU-stack,"",@progbits
