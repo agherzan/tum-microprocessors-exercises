@@ -29,3 +29,5 @@ $ ./cache-line 2
                    1	      2194969849.317
                    2	      2182890331.694
 ```
+
+Results on the tested machine: https://docs.google.com/spreadsheets/d/10Uhk2YRqbbtsQKLKqJOmdQXhmIbETsIxCZG_w-21UVE/edit?usp=sharing
