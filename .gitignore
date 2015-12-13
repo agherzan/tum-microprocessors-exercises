@@ -4,3 +4,6 @@ result*
 .autoclean
 a.out
 options.h
+likwid
+*.o
+cache-line
