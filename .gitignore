@@ -7,3 +7,5 @@ options.h
 likwid
 *.o
 cache-line
+cache-size
+*.bak
